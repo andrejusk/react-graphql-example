@@ -1,16 +1,24 @@
+import React from "react";
+
 import useAuthn from "../hooks/useAuthn";
-import AuthnForm from "../components/authnForm";
+
+const AuthnForm = React.lazy(() => import("../components/authnForm"));
+const AuthnPage = React.lazy(() => import("../components/authnPage"));
 
 const AppContent = () => {
   const { tokenState } = useAuthn();
 
   // Auth guard for GraphQL
-  if (tokenState !== "valid") return <AuthnForm />;
-
+  if (tokenState !== "valid")
+    return (
+      <React.Suspense>
+        <AuthnForm />
+      </React.Suspense>
+    );
   return (
-    <>
-      <code>Token: '{tokenState}'</code>
-    </>
+    <React.Suspense>
+      <AuthnPage />
+    </React.Suspense>
   );
 };
 
