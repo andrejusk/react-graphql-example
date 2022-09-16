@@ -10,6 +10,10 @@
   padding: .5rem .33rem;
 }
 
+.App-header-aside {
+  float: right;
+}
+
 .App-content {
   margin: 1rem;
 }
@@ -19,11 +23,7 @@
 }
 
 
-.App-user {
-  float: right;
-}
-
-.App-user code {
+.App-header code {
   font-size: 12px;
   vertical-align: middle;
 }
