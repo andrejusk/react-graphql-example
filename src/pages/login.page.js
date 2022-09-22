@@ -1,36 +1,33 @@
+
 import React from "react";
+
+import './login.page.css';
 
 import API_CONSTANTS from "../constants/api";
 import useAuthn from "../hooks/useAuthn";
-import Spinner from "./spinner";
 
 const { TOKEN_URL } = API_CONSTANTS;
 
-const AuthnForm = () => {
+const LoginPage = () => {
   const { setToken, tokenState } = useAuthn();
   const onSubmit = React.useCallback(
     (e) => {
       e.preventDefault();
-      console.log({ e });
-      setToken(e.target[0].value);
+      const token = e.target[0].value
+      setToken(token);
     },
     [setToken]
   );
   return (
     <>
       <h1>Authn</h1>
-      <form onSubmit={onSubmit}>
+      <form className="authnForm" onSubmit={onSubmit}>
         <label>
           <h2>
             <span>Personal Access Token</span>
           </h2>
           <input type="password" />
-          {tokenState === "pending" && (
-            <>
-              <p>Valdiating token...</p>
-              <Spinner />
-            </>
-          )}
+          <button disabled={tokenState === "pending"}>Submit</button>
           {tokenState === "error" && (
             <p className="error">
               <span>Failed to validate token, try again later</span>
@@ -51,4 +48,4 @@ const AuthnForm = () => {
   );
 };
 
-export default AuthnForm;
+export default LoginPage;

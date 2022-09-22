@@ -1,9 +1,14 @@
+import React from 'react';
+
+import "./appHeader.css";
+
+const NAME = process.env.REACT_APP_NAME;
+const VERSION = process.env.REACT_APP_VERSION;
+
 const AppHeader = ({ children }) => {
-  const name = process.env.REACT_APP_NAME;
-  const version = process.env.REACT_APP_VERSION;
   return (
     <header className="App-header">
-      <span>{`${name} v${version}`}</span>
+      <span>{`${NAME} v${VERSION}`}</span>
       <div className="App-header-aside">{children}</div>
     </header>
   );

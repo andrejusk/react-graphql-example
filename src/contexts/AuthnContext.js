@@ -1,8 +1,6 @@
 import React from "react";
 
-import API_CONSTANTS from "../constants/api";
-
-const { HOST } = API_CONSTANTS;
+import { graphqlFetchFactory } from "../services/graphql";
 
 const AuthnContext = React.createContext({
   token: null,
@@ -13,7 +11,15 @@ const AuthnContext = React.createContext({
 });
 
 const AuthnProvider = (props) => {
+  const [last, setLast] = React.useState(Date.now());
   const [token, setToken] = React.useState(null);
+  const setTokenCallback = React.useCallback(
+    (token) => {
+      setToken(token);
+      setLast(Date.now());
+    },
+    [setToken, setLast]
+  );
   const [username, setUsername] = React.useState(null);
   const [tokenState, setTokenState] = React.useState("idle");
   React.useEffect(
@@ -26,25 +32,18 @@ const AuthnProvider = (props) => {
     function verifyToken() {
       if (!token) return;
       setTokenState("pending");
-      fetch(`${HOST}/graphql`, {
-        method: "POST",
-        body: JSON.stringify({
-          query: "query { viewer { login } }",
-        }),
-        headers: [["Authorization", `Bearer ${token}`]],
-      })
-        .then((res) => {
+      graphqlFetchFactory(token)({ text: "query { viewer { login } }" }, {})
+        .then(async (res) => {
           if (res.status >= 500) {
             setTokenState("error");
             return;
-          } else if (res.status >= 400) {
+          }
+          if (res.status >= 400) {
             setTokenState("invalid");
             return;
           }
-          return res.json();
-        })
-        .then((payload) => {
-          const user = payload.data.viewer.login ?? null;
+          const { data } = await res.json();
+          const user = data.viewer.login ?? null;
           if (user) {
             setTokenState("valid");
             setUsername(user);
@@ -54,13 +53,14 @@ const AuthnProvider = (props) => {
         })
         .catch((err) => {
           console.log({ err });
+          setTokenState("error");
         });
     },
-    [token, setUsername]
+    [last, token, setUsername]
   );
   return (
     <AuthnContext.Provider
-      value={{ token, setToken, username, tokenState }}
+      value={{ token, setToken: setTokenCallback, username, tokenState }}
       {...props}
     />
   );

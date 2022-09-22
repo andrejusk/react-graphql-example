@@ -1,8 +1,10 @@
-import AppContent from "./appContent";
-import AppWrapper from "./appWrapper";
-import AppShell from "./appShell";
+import React from 'react';
 
-import "./app.css";
+import "./index.css";
+
+import AppContent from "./content";
+import AppWrapper from "./wrapper";
+import AppShell from "./shell";
 
 const App = () => (
   <AppWrapper>

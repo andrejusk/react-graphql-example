@@ -14,32 +14,7 @@
   float: right;
 }
 
-.App-content {
-  margin: 1rem;
-}
-
-.App-footer {
-  margin: 1.5rem 1rem;
-}
-
-
-.App-header code {
+.App-header p {
   font-size: 12px;
   vertical-align: middle;
-}
-
-
-.App-link {
-  color: #61dafb;
-}
-
-input {
-  width: 100%;
-  padding: .66rem 1rem;
-  margin: .33rem 0;
-  box-sizing: border-box;
-}
-
-.error {
-  color: red;
 }

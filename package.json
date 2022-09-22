@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "babel-plugin-relay": "^14.1.0",
+    "eslint": "^8.23.1",
     "relay-compiler": "^14.1.0"
   }
 }

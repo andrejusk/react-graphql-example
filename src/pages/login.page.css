@@ -1,0 +1,12 @@
+.authnForm input {
+  width: 100%;
+  padding: .66rem 1rem;
+  margin: .33rem 0;
+  box-sizing: border-box;
+}
+
+.authnForm button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
+}

@@ -1,26 +1,28 @@
-import Relay from "react-relay";
+import React from "react";
+
+import { useFragment } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-const UserProfile = Relay.createFragmentContainer(
-  (props) => {
-    const { name, avatarUrl } = props.user;
-    return (
-      <div className="User-profile">
-        <p>Welcome, {name}</p>
-        <img src={{ uri: avatarUrl }} alt={`${name}'s profile`} />
-      </div>
-    );
-  },
-  {
-    user: graphql`
-      query userProfileQuery {
-        viewer {
-          name
-          avatarUrl
-        }
-      }
-    `,
-  }
-);
+export const UserProfile = React.memo(({ name, login, avatarUrl }) => (
+  <div className="User-profile">
+    <img src={{ uri: avatarUrl }} alt={`${name}'s profile`} />
+    <p>
+      {name} (<code>@{login}</code>)
+    </p>
+  </div>
+));
 
-export default UserProfile;
+const UserProfileFragment = graphql`
+  fragment userProfile_user on User {
+    name
+    login
+    avatarUrl
+  }
+`;
+
+const UserProfileContainer = (props) => {
+  const data = useFragment(UserProfileFragment, props.user);
+  return <UserProfile {...data} />;
+};
+
+export default UserProfileContainer;
