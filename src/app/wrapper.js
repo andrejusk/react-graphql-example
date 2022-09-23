@@ -1,10 +1,14 @@
 import React from "react";
 
+import { ThemeProvider } from "@primer/react";
+
 import { AuthnProvider } from "../contexts/AuthnContext";
 
 const AppWrapper = (props) => (
   <React.StrictMode>
-    <AuthnProvider {...props} />
+    <ThemeProvider>
+      <AuthnProvider {...props} />
+    </ThemeProvider>
   </React.StrictMode>
 );
 

@@ -1,23 +1,19 @@
 import React from "react";
 
-import AppFooter from "../components/appFooter";
+import { BaseStyles, Box, Link } from "@primer/react";
+
 import AppHeader from "../components/appHeader";
 
 const AppShell = ({ children }) => (
-  <>
+  <BaseStyles>
     <AppHeader />
-    <main className="App-content">{children}</main>
-    <AppFooter>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React!
-      </a>
-    </AppFooter>
-  </>
+    <Box sx={{ m: 3 }}>
+      <Box>{children}</Box>
+      <Box as={"footer"} sx={{ mt: 5 }}>
+        <Link>Learn React!</Link>
+      </Box>
+    </Box>
+  </BaseStyles>
 );
 
 export default AppShell;

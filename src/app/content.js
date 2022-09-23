@@ -1,7 +1,5 @@
 import React from "react";
 
-import "./content.css";
-
 import useAuthn from "../hooks/useAuthn";
 
 const LoginPage = React.lazy(() => import("../pages/login.page"));
