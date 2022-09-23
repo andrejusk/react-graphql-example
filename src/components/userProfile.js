@@ -20,8 +20,8 @@ const UserProfileFragment = graphql`
   }
 `;
 
-const UserProfileContainer = (props) => {
-  const data = useFragment(UserProfileFragment, props.user);
+const UserProfileContainer = ({ user }) => {
+  const data = useFragment(UserProfileFragment, user);
   return <UserProfile {...data} />;
 };
 

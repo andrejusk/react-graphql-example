@@ -19,3 +19,12 @@ export const graphqlFetchFactory = (token) => {
     });
   };
 };
+
+export const graphqlJsonFetchFactory = (token) => {
+  const queryFetch = graphqlFetchFactory(token);
+  return async (operation, variables) => {
+    return queryFetch(operation, variables).then((response) => {
+      return response.json();
+    });
+  };
+};

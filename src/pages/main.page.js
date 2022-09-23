@@ -1,6 +1,7 @@
 import React from "react";
 
-import { graphql, useQueryLoader } from "react-relay";
+import { usePreloadedQuery, useQueryLoader } from "react-relay";
+import graphql from "babel-plugin-relay/macro";
 
 import UserProfile from "../components/userProfile";
 // import UserStats from "../components/userStats";
@@ -10,23 +11,31 @@ import UserProfile from "../components/userProfile";
 
 const MainPageQuery = graphql`
   query mainPageQuery {
-    user: viewer {
+    viewer {
       ...userProfile_user
     }
   }
 `;
 
+const UserContainer = ({ queryRef }) => {
+  const data = usePreloadedQuery(MainPageQuery, queryRef);
+  return (
+    <>
+      <UserProfile user={data.viewer} />
+    </>
+  );
+};
+
 const MainPage = () => {
-  const [ref, load, dispose] = useQueryLoader(MainPageQuery);
+  const [queryRef, load] = useQueryLoader(MainPageQuery);
   React.useEffect(() => {
-    load();
-    return dispose;
-  }, [load, dispose]);
+    load({}, { fetchPolicy: "store-or-network" });
+  }, [load]);
 
   return (
     <>
       <React.Suspense fallback={<div>Loading...</div>}>
-        {ref && <UserProfile user={ref} />}
+        {queryRef && <UserContainer queryRef={queryRef} />}
       </React.Suspense>
     </>
   );
