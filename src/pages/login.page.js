@@ -1,7 +1,15 @@
-
 import React from "react";
 
-import './login.page.css';
+import {
+  Box,
+  Button,
+  Flash,
+  FormControl,
+  Heading,
+  Link,
+  Text,
+  TextInput,
+} from "@primer/react";
 
 import API_CONSTANTS from "../constants/api";
 import useAuthn from "../hooks/useAuthn";
@@ -13,36 +21,41 @@ const LoginPage = () => {
   const onSubmit = React.useCallback(
     (e) => {
       e.preventDefault();
-      const token = e.target[0].value
+      const token = e.target[0].value;
       setToken(token);
     },
     [setToken]
   );
   return (
     <>
-      <h1>Authn</h1>
-      <form className="authnForm" onSubmit={onSubmit}>
-        <label>
-          <h2>
-            <span>Personal Access Token</span>
-          </h2>
-          <input type="password" />
-          <button disabled={tokenState === "pending"}>Submit</button>
+      <Heading>Login</Heading>
+      <form onSubmit={onSubmit}>
+        <Box sx={{ my: 3 }}>
           {tokenState === "error" && (
-            <p className="error">
-              <span>Failed to validate token, try again later</span>
-            </p>
+            <Flash variant="danger">
+              <Text>Failed to validate token, try again later</Text>
+            </Flash>
           )}
           {tokenState === "invalid" && (
-            <p className="error">
-              <span>Invalid token</span>
-            </p>
+            <Flash variant="danger">
+              <Text>Invalid token</Text>
+            </Flash>
           )}
-          <p>
-            <span>Please generate a "legacy" PAT </span>
-            <a href={TOKEN_URL}>here.</a>
-          </p>
-        </label>
+        </Box>
+        <FormControl sx={{width: "100%"}}>
+          <FormControl.Label>Personal Access Token</FormControl.Label>
+          <TextInput placeholder="ghp_****************" type="password" sx={{width: "100%"}} />
+        </FormControl>
+        <Button
+          disabled={tokenState === "pending"}
+          sx={{ width: "100%", my: 3 }}
+        >
+          Submit
+        </Button>
+        <Text>
+          <span>Please generate a "legacy" PAT </span>
+          <Link href={TOKEN_URL}>here.</Link>
+        </Text>
       </form>
     </>
   );
