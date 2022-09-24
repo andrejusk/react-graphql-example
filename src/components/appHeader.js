@@ -10,7 +10,9 @@ const AppHeader = ({ children }) => {
     <Header>
       <Header.Item>
         <Header.Link href="#" fontSize={2}>
-          <span>{`${NAME} v${VERSION}`}</span>
+          <span>{NAME}</span>
+          <span>&nbsp;v</span>
+          <span>{VERSION}</span>
         </Header.Link>
       </Header.Item>
       <Header.Item full>{children}</Header.Item>

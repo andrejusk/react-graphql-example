@@ -10,7 +10,7 @@ const AppShell = ({ children }) => (
     <Box sx={{ m: 3 }}>
       <Box>{children}</Box>
       <Box as={"footer"} sx={{ mt: 5 }}>
-        <Link>Learn React!</Link>
+        <Link href="#">Learn React!</Link>
       </Box>
     </Box>
   </BaseStyles>

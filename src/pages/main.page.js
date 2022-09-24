@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Button, Heading, Text } from "@primer/react";
+import { Box, Button, Heading } from "@primer/react";
 import { usePreloadedQuery, useQueryLoader } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
@@ -10,7 +10,7 @@ import FollowerList from "../components/followerList";
 import FollowerAvatarList from "../components/followerAvatarList";
 
 const MainPageQuery = graphql`
-  query mainPageQuery($extended: Boolean!) {
+  query mainPageQuery {
     viewer {
       # UserContainer <Heading />
       name
@@ -23,13 +23,6 @@ const MainPageQuery = graphql`
         ...followerAvatarList_avatars
       }
     }
-
-    # <FollowerList /> component
-    followersExtended: viewer @include(if: $extended) {
-      followers {
-        ...followerList_followers
-      }
-    }
   }
 `;
 
@@ -38,7 +31,7 @@ const UserContainer = ({ queryRef }) => {
   const { viewer: user } = data;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <Heading sx={{ fontSize: "20px" }}>Hello, {user.name}!</Heading>
       <UserProfile user={user} />
       <FollowerAvatarList followers={user.followers} />
@@ -46,25 +39,38 @@ const UserContainer = ({ queryRef }) => {
   );
 };
 
-const FollowersContainer = ({ queryRef }) => {
-  const data = usePreloadedQuery(MainPageQuery, queryRef);
-  if (!data.followersExtended) return null;
-  const { followers } = data.followersExtended;
+const MainPageExtendedQuery = graphql`
+  query mainPageExtendedQuery {
+    # <FollowerList /> component
+    viewer {
+      followers {
+        ...followerList_followers
+      }
+    }
+  }
+`;
 
-  return (
-    <Box>
-      <FollowerList followers={followers} />
-    </Box>
-  );
+const FollowersContainer = ({ queryRef }) => {
+  const data = usePreloadedQuery(MainPageExtendedQuery, queryRef);
+  const { followers } = data.viewer;
+
+  return <FollowerList followers={followers} />;
 };
 
 const MainPage = () => {
   const [queryRef, load, dispose] = useQueryLoader(MainPageQuery);
+  const [extendedRef, loadExtended, disposeExtended] = useQueryLoader(
+    MainPageExtendedQuery
+  );
   const [extended, setExtended] = React.useState(false);
   React.useEffect(() => {
-    load({ extended });
-    return dispose;
-  }, [load, dispose, extended]);
+    load({});
+    extended && loadExtended({});
+    return () => {
+      dispose();
+      disposeExtended();
+    };
+  }, [load, dispose, extended, loadExtended, disposeExtended]);
   const toggle = React.useCallback(
     () => setExtended(!extended),
     [extended, setExtended]
@@ -85,14 +91,16 @@ const MainPage = () => {
                   alignItems: "center",
                 }}
               >
-                <Text>Expand follower list</Text>
+                <Heading sx={{fontSize: '16px'}}>Follower list</Heading>
                 <Button onClick={toggle}>{extended ? "Hide" : "Show"}</Button>
               </Box>
-              {extended && (
-                <React.Suspense fallback={<Loader />}>
-                  <FollowersContainer queryRef={queryRef} />
-                </React.Suspense>
-              )}
+              <Box>
+                {extendedRef && (
+                  <React.Suspense fallback={<Loader />}>
+                    <FollowersContainer queryRef={extendedRef} />
+                  </React.Suspense>
+                )}
+              </Box>
             </Box>
           </Box>
         )}

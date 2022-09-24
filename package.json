@@ -33,6 +33,11 @@
       "plugin:relay/recommended"
     ]
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "!node_modules/"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
