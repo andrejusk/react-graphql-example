@@ -36,6 +36,9 @@
     ]
   },
   "jest": {
+    "testMatch": [
+      "**/?(*.)(spec|test).js?(x)"
+    ],
     "transformIgnorePatterns": [
       "!node_modules/"
     ]
