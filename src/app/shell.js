@@ -2,7 +2,7 @@ import React from "react";
 
 import { BaseStyles, Box, Link } from "@primer/react";
 
-import AppHeader from "../components/appHeader";
+import AppHeader from "../components/header";
 
 const AppShell = ({ children }) => (
   <BaseStyles>

@@ -7,7 +7,7 @@ const VERSION = process.env.REACT_APP_VERSION;
 
 const AppHeader = ({ children }) => {
   return (
-    <Header>
+    <Header data-testid="header">
       <Header.Item>
         <Header.Link href="#" fontSize={2}>
           <span>{NAME}</span>
