@@ -8,8 +8,10 @@ export const UserProfile = React.memo(({ login, avatarUrl }) => (
   <Box
     sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2 }}
   >
-    <Avatar square src={avatarUrl} />
-    <Text sx={{ fontSize: "14px", fontWeight: 600 }}>{login}</Text>
+    <Avatar square src={avatarUrl} data-testid="avatar" />
+    <Text sx={{ fontSize: "14px", fontWeight: 600 }} data-testid="login">
+      {login}
+    </Text>
   </Box>
 ));
 

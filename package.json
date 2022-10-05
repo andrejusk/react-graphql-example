@@ -9,7 +9,9 @@
     "build": "npm run relay && react-scripts build",
     "lint": "eslint src",
     "relay": "relay-compiler",
-    "test": "react-scripts test",
+    "test": "concurrently \"npm run test:*\"",
+    "test:watch": "react-scripts test",
+    "test:relay": "relay-compiler --watch",
     "eject": "react-scripts eject"
   },
   "relay": {
@@ -70,6 +72,8 @@
     "eslint-plugin-graphql": "^4.0.0",
     "eslint-plugin-relay": "^1.8.3",
     "graphql": "^15.8.0",
-    "relay-compiler": "^14.1.0"
+    "react-test-renderer": "^18.2.0",
+    "relay-compiler": "^14.1.0",
+    "relay-test-utils": "^14.1.0"
   }
 }
