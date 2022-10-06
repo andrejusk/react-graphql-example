@@ -42,9 +42,13 @@ const LoginPage = () => {
             </Flash>
           )}
         </Box>
-        <FormControl sx={{width: "100%"}}>
+        <FormControl sx={{ width: "100%" }}>
           <FormControl.Label>Personal Access Token</FormControl.Label>
-          <TextInput placeholder="ghp_****************" type="password" sx={{width: "100%"}} />
+          <TextInput
+            placeholder="ghp_****************"
+            type="password"
+            sx={{ width: "100%" }}
+          />
         </FormControl>
         <Button
           disabled={tokenState === "pending"}
