@@ -1,7 +1,5 @@
 import React from 'react';
 
-import "./index.css";
-
 import AppContent from "./content";
 import AppWrapper from "./wrapper";
 import AppShell from "./shell";

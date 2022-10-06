@@ -6,7 +6,7 @@ import { AuthnProvider } from "../contexts/AuthnContext";
 
 const AppWrapper = (props) => (
   <React.StrictMode>
-    <ThemeProvider>
+    <ThemeProvider colorMode="dark">
       <AuthnProvider {...props} />
     </ThemeProvider>
   </React.StrictMode>
